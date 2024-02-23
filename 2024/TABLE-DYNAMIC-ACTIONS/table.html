@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Table dynamic</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+  <!-- <style>
+    .blue-background-class {
+      background-color: rgb(177, 177, 245);
+    }
+
+    .input-text {
+      position: relative;
+      display: inline-block;
+      margin: .3rem;
+    }
+
+    .button-action {
+      position: absolute;
+      border: .1px solid white;
+      border-radius: 30%;
+      font-size: 10px;
+    }
+
+    .color-red {
+      top: -.5rem;
+      right: 0;
+      background: #f77b54;
+      color: white;
+    }
+
+    .color-gray {
+      top: -.5rem;
+      right: 1.3rem;
+      background: #c5c3c2;
+      color: rgb(15, 15, 15);
+    }
+
+    .button-action {
+      display: none;
+      /* Ocultar los botones por defecto */
+    }
+
+    .input-text:hover .button-action {
+      display: inline-block;
+      /* Mostrar los botones cuando se pasa el ratón sobre el área de texto */
+    }
+  </style> -->
+
+  <style>
+    thead {
+      font-size: .7rem;
+    }
+
+    tbody {
+      font-size: .8rem;
+    }
+
+    .bd-example {
+      text-align: center;
+    }
+
+    .cumple {
+      background-color: #15df1530 !important;
+    }
+
+    .noCumple {
+      background-color: #ff00001f !important;
+    }
+
+    .header {
+      background-color: #80808024 !important;
+    }
+
+    .font-size-badge {
+      font-size: .8rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bd-example">
+    <table class="table table-bordered">
+      <thead class="header">
+        <tr>
+          <th scope="col" style="width: 180px;">Tipo</th>
+          <th scope="col" style="width: 100px;">Critico</th>
+          <th scope="col">Puntos</th>
+          <th scope="col" style="width: 100px;">Peso</th>
+          <th scope="col" style="width: 130px;">Accion</th>
+          <th scope="col" style="width: 100px;">Total</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+      </tbody>
+      <tfoot>
+        <tr>
+          <td style="width: 180px;">Observacion</td>
+          <td colspan="3">
+            <textarea class="form-control" name="observacion" id="observacion" rows="5"></textarea>
+          </td>
+          <td style="width: 130px;"><b>NOTA FINAL</b></td>
+          <td style="width: 100px;">
+            <span class="badge text-dark font-size-badge" id="totalPercentage"></span>
+          </td>
+        </tr>
+      </tfoot>
+
+    </table>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+    crossorigin="anonymous"></script>
+
+  <script>
+    const array = [
+      {
+        "nameGroup": {
+          "nameGroup4": "grupo1"
+        },
+        "items": [
+          {
+            "criticidad": {
+              "criticidad4_2": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining4_2": "p1"
+            },
+            "weightedWeight": {
+              "weightedWeight4_2": "5"
+            },
+            "affectations": {
+              "affectations4_2": "NA"
+            }
+          },
+          {
+            "criticidad": {
+              "criticidad4_3": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining4_3": "p11"
+            },
+            "weightedWeight": {
+              "weightedWeight4_3": "10"
+            },
+            "affectations": {
+              "affectations4_3": ""
+            }
+          },
+          {
+            "criticidad": {
+              "criticidad4_8": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining4_8": "p111"
+            },
+            "weightedWeight": {
+              "weightedWeight4_8": "7"
+            },
+            "affectations": {
+              "affectations4_8": "NA"
+            }
+          }
+        ],
+        "ranges": [
+          {
+            "startRange": {
+              "startRange4_3": "0"
+            },
+            "endRange": {
+              "endRange4_3": "10"
+            },
+            "colorRange": {
+              "colorRange4_3": "#ff00001f"
+            }
+          },
+          {
+            "startRange": {
+              "startRange4_4": "11"
+            },
+            "endRange": {
+              "endRange4_4": "16"
+            },
+            "colorRange": {
+              "colorRange4_4": "#ffc10769"
+            }
+          },
+          {
+            "startRange": {
+              "startRange4_5": "17"
+            },
+            "endRange": {
+              "endRange4_5": "22"
+            },
+            "colorRange": {
+              "colorRange4_5": "#15df1530"
+            }
+          }
+        ],
+        "total": 22,
+        "group": {
+          "group4": "ninguno"
+        }
+      },
+      {
+        "nameGroup": {
+          "nameGroup6": "grupo2"
+        },
+        "items": [
+          {
+            "criticidad": {
+              "criticidad6_4": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining6_4": "p2"
+            },
+            "weightedWeight": {
+              "weightedWeight6_4": "10"
+            },
+            "affectations": {
+              "affectations6_4": ""
+            }
+          },
+          {
+            "criticidad": {
+              "criticidad6_6": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining6_6": "p22"
+            },
+            "weightedWeight": {
+              "weightedWeight6_6": "15"
+            },
+            "affectations": {
+              "affectations6_6": ""
+            }
+          }
+        ],
+        "ranges": [
+          {
+            "startRange": {
+              "startRange6_2": "0"
+            },
+            "endRange": {
+              "endRange6_2": "10"
+            },
+            "colorRange": {
+              "colorRange6_2": "#ff00001f"
+            }
+          },
+          {
+            "startRange": {
+              "startRange6_3": "11"
+            },
+            "endRange": {
+              "endRange6_3": "17"
+            },
+            "colorRange": {
+              "colorRange6_3": "#ffc10769"
+            }
+          },
+          {
+            "startRange": {
+              "startRange6_4": "18"
+            },
+            "endRange": {
+              "endRange6_4": "25"
+            },
+            "colorRange": {
+              "colorRange6_4": "#15df1530"
+            }
+          }
+        ],
+        "total": 25,
+        "group": {
+          "group6": "ninguno"
+        }
+      },
+      {
+        "nameGroup": {
+          "nameGroup7": "grupo3"
+        },
+        "items": [
+          {
+            "criticidad": {
+              "criticidad7_7": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining7_7": "p3"
+            },
+            "weightedWeight": {
+              "weightedWeight7_7": "20"
+            },
+            "affectations": {
+              "affectations7_7": ""
+            }
+          },
+          {
+            "criticidad": {
+              "criticidad7_10": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining7_10": "p33"
+            },
+            "weightedWeight": {
+              "weightedWeight7_10": "20"
+            },
+            "affectations": {
+              "affectations7_10": "NA"
+            }
+          }
+        ],
+        "ranges": [
+          {
+            "startRange": {
+              "startRange7_4": "0"
+            },
+            "endRange": {
+              "endRange7_4": "0"
+            },
+            "colorRange": {
+              "colorRange7_4": "#ff00001f"
+            }
+          },
+          {
+            "startRange": {
+              "startRange7_6": "20"
+            },
+            "endRange": {
+              "endRange7_6": "20"
+            },
+            "colorRange": {
+              "colorRange7_6": "#15df1530"
+            }
+          }
+        ],
+        "total": 20,
+        "group": {
+          "group7": "nameGroup7,nameGroup8"
+        }
+      },
+      {
+        "nameGroup": {
+          "nameGroup8": "grupo4"
+        },
+        "items": [
+          {
+            "criticidad": {
+              "criticidad8_11": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining8_11": "p4"
+            },
+            "weightedWeight": {
+              "weightedWeight8_11": "20"
+            },
+            "affectations": {
+              "affectations8_11": ""
+            }
+          }
+        ],
+        "ranges": [
+          {
+            "startRange": {
+              "startRange8_6": "0"
+            },
+            "endRange": {
+              "endRange8_6": "0"
+            },
+            "colorRange": {
+              "colorRange8_6": "#ff00001f"
+            }
+          },
+          {
+            "startRange": {
+              "startRange8_8": "20"
+            },
+            "endRange": {
+              "endRange8_8": "20"
+            },
+            "colorRange": {
+              "colorRange8_8": "#15df1530"
+            }
+          }
+        ],
+        "total": 20,
+        "group": {
+          "group8": "nameGroup7,nameGroup8"
+        }
+      },
+      {
+        "nameGroup": {
+          "nameGroup9": "grupo9"
+        },
+        "items": [
+          {
+            "criticidad": {
+              "criticidad9_11": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining9_11": "p4"
+            },
+            "weightedWeight": {
+              "weightedWeight9_11": "33"
+            },
+            "affectations": {
+              "affectations9_11": ""
+            }
+          },
+          {
+            "criticidad": {
+              "criticidad9_12": "critico"
+            },
+            "pointsTraining": {
+              "pointsTraining9_12": "p4"
+            },
+            "weightedWeight": {
+              "weightedWeight9_12": "33"
+            },
+            "affectations": {
+              "affectations9_12": ""
+            }
+          }
+        ],
+        "ranges": [
+          {
+            "startRange": {
+              "startRange9_6": "0"
+            },
+            "endRange": {
+              "endRange9_6": "0"
+            },
+            "colorRange": {
+              "colorRange9_6": "#ff00001f"
+            }
+          },
+          {
+            "startRange": {
+              "startRange9_8": "33"
+            },
+            "endRange": {
+              "endRange9_8": "33"
+            },
+            "colorRange": {
+              "colorRange9_8": "#15df1530"
+            }
+          }
+        ],
+        "total": 33,
+        "group": {
+          "group9": "nameGroup9"
+        }
+      }
+    ];
+    let html = '';
+    let listRanges = {};
+    let groupsGrouped = {};
+    let sumScore = 0;
+    let sumTotal = 0;
+    let totalPercentage = 0;
+    let totalItemsGroup = 0;
+    let wightGlobalItemGroup = 0;
+    let flagCountPositionGroup = 0;
+
+    let flagGroupFor = 0;
+
+    function capitalizeFirstLetter(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function getColor(numero, listRangesKey) {
+      const ranges = listRanges[listRangesKey];
+      if (!ranges) {
+        return null; // Si no hay rangos para la clave proporcionada, devuelve null
+      }
+
+      for (const range of ranges) {
+        const start = parseInt(Object.values(range.startRange)[0]); // Obtiene el valor del inicio del rango
+        const end = parseInt(Object.values(range.endRange)[0]); // Obtiene el valor del final del rango
+
+        if (numero >= start && numero <= end) {
+          return Object.values(range.colorRange)[0]; // Devuelve el color correspondiente
+        }
+      }
+
+      return null; // Si el número no está dentro de ningún rango, devuelve null
+    }
+
+    array.forEach(element => {
+      const [grupo, groupV] = Object.entries(element.group)[0];
+      if (groupV !== 'ninguno') {
+        if (!groupsGrouped[groupV]) {
+          groupsGrouped[groupV] = [];
+        }
+        groupsGrouped[groupV].push(element);
+      }
+    });
+
+    array.forEach(element => {
+      const [key, value] = Object.entries(element.nameGroup)[0]
+      const numberGroup = parseInt(key.match(/\d+/)[0]);
+      const [group, groupV] = Object.entries(element.group)[0]
+
+      // console.log(group, groupV);
+
+      const numberItems = element.items.length;
+
+      const totalWeight = element.total;
+
+      if (groupV == 'ninguno') {
+        element.items.forEach((item, index) => {
+          const [criticidad, criticidadV] = Object.entries(item.criticidad)[0]
+          const [pointsTraining, pointsTrainingV] = Object.entries(item.pointsTraining)[0]
+          const [weightedWeight, weightedWeightV] = Object.entries(item.weightedWeight)[0]
+          const [affectations, affectationsV] = Object.entries(item.affectations)[0]
+
+
+          const numberItem = criticidad.split('_')[1];
+
+          html += `<tr>
+            ${index == 0 ? `
+            <td rowspan="${numberItems}" class="header" style="position: relative; text-align: center;">
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                ${value}
+              </div>
+            </td>` : ''}
+            <td class="l${numberGroup}_${numberItem} cumple">${capitalizeFirstLetter(criticidadV)}</td>
+            <td class="l${numberGroup}_${numberItem} cumple">${pointsTrainingV}</td>
+            <td class="l${numberGroup}_${numberItem} cumple">${weightedWeightV}%</td>
+            <td class="l${numberGroup}_${numberItem} cumple">
+              <select name="${affectations}" id="${affectations}" class="form-select form-select-sm l${numberGroup}_${numberItem} cumple" data-group="${numberGroup}" data-item="${numberItem}" data-score="${weightedWeightV}" data-action="Cumple" data-flaggroup=false data-idgroup="" onchange="updateAveragePreview(event)">
+                <option value="Cumple">Cumple</option>
+                <option value="No Cumple">No Cumple</option>
+                ${affectationsV != '' ? '<option value="NA">NA</option>' : null}
+              </select>
+            </td>
+            ${index == 0 ? `
+            <td rowspan="${numberItems}" style="position: relative; text-align: center;">
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                <span class="badge text-dark font-size-badge totalPercentage" id="p${numberGroup}" data-total="${totalWeight}">${totalWeight}%</span>
+              </div>
+            </td>` : ''}
+          </tr>`;
+        });
+
+        let rangesObject = [];
+        element.ranges.forEach((range, index) => {
+          rangesObject.push(range);
+        });
+        listRanges[numberGroup] = rangesObject;
+
+      }
+      // else {
+      // element.items.forEach((item, index) => {
+      //   const [criticidad, criticidadV] = Object.entries(item.criticidad)[0]
+      //   // console.log(criticidad, criticidadV);
+      //   const [pointsTraining, pointsTrainingV] = Object.entries(item.pointsTraining)[0]
+      //   const [weightedWeight, weightedWeightV] = Object.entries(item.weightedWeight)[0]
+      //   const [affectations, affectationsV] = Object.entries(item.affectations)[0]
+
+      //   flagNumberItems == 0 ? wightGlobalItemGroup = weightedWeightV : null
+
+
+      //   const numberItem = criticidad.split('_')[1];
+
+      //   // totalItemsGroup
+
+      //   html += `<tr>
+      //     ${index == 0 ? `
+      //     <td rowspan="${numberItems}" class="header" style="position: relative; text-align: center;">
+      //       <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      //         ${value}
+      //       </div>
+      //     </td>` : ''}
+      //     <td class="l${numberGroup}_${numberItem} cumple">${capitalizeFirstLetter(criticidadV)}</td>
+      //     <td class="l${numberGroup}_${numberItem} cumple">${pointsTrainingV}</td>
+      //     ${flagNumberItems == 0 ? `
+      //     <td rowspan="${totalItemsGroup}" class="l${numberGroup}_${numberItem} cumple" style="position: relative; text-align: center;">
+      //       <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      //         <span>${weightedWeightV}%</span>
+      //       </div>
+      //     </td>` : ''}
+      //     <td class="l${numberGroup}_${numberItem} cumple">
+      //       <select name="${affectations}" id="${affectations}" class="form-select form-select-sm l${numberGroup}_${numberItem} cumple" data-group="${numberGroup}" data-item="${numberItem}" data-score="${wightGlobalItemGroup}" data-action="Cumple" onchange="updateAveragePreview(event)">
+      //         <option value="Cumple">Cumple</option>
+      //         <option value="No Cumple">No Cumple</option>
+      //         ${affectationsV != '' ? '<option value="NA">NA</option>' : null}
+      //       </select>
+      //     </td>
+      //     ${flagNumberItems == 0 ? `
+      //     <td rowspan="${totalItemsGroup}" style="position: relative; text-align: center;">
+      //       <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      //         <span class="badge text-dark font-size-badge totalPercentage" id="p${numberGroup}" data-total="${totalWeight}">${totalWeight}%</span>
+      //       </div>
+      //     </td>` : ''}
+      //   </tr>`;
+      //   flagNumberItems++;
+      // });
+
+      // let rangesObject = [];
+      // element.ranges.forEach((range, index) => {
+      //   rangesObject.push(range);
+      // });
+      // listRanges[numberGroup] = rangesObject;
+      // }
+
+    });
+
+    for (const grupo in groupsGrouped) {
+      const objetosGrupo = groupsGrouped[grupo];
+
+      objetosGrupo.forEach(element => {
+        const [key, value] = Object.entries(element.nameGroup)[0]
+        const numberGroup = parseInt(key.match(/\d+/)[0]);
+
+        let rangesObject = [];
+        element.ranges.forEach((range, index) => {
+          rangesObject.push(range);
+        });
+        listRanges[numberGroup] = rangesObject;
+
+        element.items.forEach((item, index) => {
+          totalItemsGroup++;
+        });
+      });
+
+      objetosGrupo.forEach(element => {
+
+        const [key, value] = Object.entries(element.nameGroup)[0]
+        const numberGroup = parseInt(key.match(/\d+/)[0]);
+        const [group, groupV] = Object.entries(element.group)[0]
+
+        const numberItems = element.items.length;
+
+        const totalWeight = element.total;
+
+        element.items.forEach((item, index) => {
+          const [criticidad, criticidadV] = Object.entries(item.criticidad)[0]
+          const [pointsTraining, pointsTrainingV] = Object.entries(item.pointsTraining)[0]
+          const [weightedWeight, weightedWeightV] = Object.entries(item.weightedWeight)[0]
+          const [affectations, affectationsV] = Object.entries(item.affectations)[0]
+
+          flagGroupFor == 0 ? wightGlobalItemGroup = weightedWeightV : null
+
+
+          const numberItem = criticidad.split('_')[1];
+
+          html += `<tr>
+          ${index == 0 ? `
+          <td rowspan="${numberItems}" class="header" style="position: relative; text-align: center;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              ${value}
+            </div>
+          </td>` : ''}
+          <td class="l${numberGroup}_${numberItem} cumple">${capitalizeFirstLetter(criticidadV)}</td>
+          <td class="l${numberGroup}_${numberItem} cumple">${pointsTrainingV}</td>
+          ${flagGroupFor == 0 ? `
+          <td rowspan="${totalItemsGroup}" class="l${numberGroup}_${numberItem} cumple" style="position: relative; text-align: center;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <span>${weightedWeightV}%</span>
+            </div>
+          </td>` : ''}
+          <td class="l${numberGroup}_${numberItem} cumple">
+            <select name="${affectations}" id="${affectations}" class="form-select form-select-sm l${numberGroup}_${numberItem} cumple" data-group="${numberGroup}" data-item="${numberItem}" data-score="${wightGlobalItemGroup}" data-action="Cumple" data-flaggroup=true data-idgroup="${grupo}" data-iscancel=false onchange="updateAveragePreview(event)">
+              <option value="Cumple">Cumple</option>
+              <option value="No Cumple">No Cumple</option>
+              ${affectationsV != '' ? '<option value="NA">NA</option>' : null}
+            </select>
+          </td>
+          ${flagGroupFor == 0 ? `
+          <td rowspan="${totalItemsGroup}" style="position: relative; text-align: center;">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <span class="badge text-dark font-size-badge totalPercentage" id="${grupo}" data-total="${totalWeight}">${totalWeight}%</span>
+            </div>
+          </td>` : ''}
+        </tr>`;
+          flagGroupFor++
+        });
+
+        totalItemsGroup = 0;
+      });
+      flagGroupFor = 0;
+
+    }
+
+    document.getElementById('tbody').innerHTML = html;
+
+    array.forEach(element => {
+      const [key, value] = Object.entries(element.nameGroup)[0]
+      const [group, groupV] = Object.entries(element.group)[0]
+      const numberGroup = parseInt(key.match(/\d+/)[0]);
+
+      if (groupV == 'ninguno') {
+        const totalWeight = element.total;
+        // totalPercentage = parseInt(totalPercentage) + parseInt(totalWeight);
+
+        const colorTotal = getColor(totalWeight, `${numberGroup}`);
+        document.getElementById(`p${numberGroup}`).style.setProperty('background-color', colorTotal, 'important');
+      }
+
+    });
+
+    for (const grupo in groupsGrouped) {
+      const objetosGrupo = groupsGrouped[grupo];
+
+      objetosGrupo.forEach(element => {
+
+        const [key, value] = Object.entries(element.nameGroup)[0]
+        const numberGroup = parseInt(key.match(/\d+/)[0]);
+
+        const totalWeight = element.total;
+
+        objetosGrupo.forEach((element, index) => {
+          if (index == 0) {
+            const totalWeight = element.total;
+
+            const colorTotal = getColor(totalWeight, `${numberGroup}`);
+            document.addEventListener('DOMContentLoaded', function () {
+              document.getElementById(`p${numberGroup}`).style.setProperty('background-color', colorTotal, 'important');
+            });
+          }
+        });
+
+      });
+
+    }
+
+    function colortotalPercentage(number) {
+      if (number < 0 || number > 110) {
+        console.log('no esta entre el rango de 0 a 110');
+        return;
+      }
+      document.getElementById('totalPercentage').textContent = `${number}%`;
+      if (number <= 80) {
+        document.getElementById('totalPercentage').style.setProperty('background-color', '#ff00001f', 'important');
+      } else if (number <= 95) {
+        document.getElementById('totalPercentage').style.setProperty('background-color', '#ffc10769', 'important');
+      } else {
+        document.getElementById('totalPercentage').style.setProperty('background-color', '#15df1530', 'important');
+      }
+    }
+
+    // colortotalPercentage(totalPercentage);
+
+    function calculateTotalPercentage() {
+      totalPercentage = 0;
+      const inputs = document.querySelectorAll('.totalPercentage');
+      inputs.forEach(input => {
+        const total = input.getAttribute("data-total");
+        totalPercentage = parseInt(totalPercentage) + parseInt(total);
+      });
+      colortotalPercentage(totalPercentage);
+
+    }
+
+    calculateTotalPercentage()
+
+    function updateAveragePreview(e) {
+      const group = e.target.dataset.group
+      const item = e.target.dataset.item
+      const value = e.target.value
+      const score = e.target.dataset.score
+      const id = e.target.id
+      const isGroup = e.target.dataset.flaggroup
+      const idGroup = e.target.dataset.idgroup
+
+      let idScoreText = '';
+
+      document.getElementById(id).setAttribute('data-action', value);
+
+      const elements = document.querySelectorAll(`.l${group}_${item}`);
+      if (value == 'Cumple' || value == 'NA') {
+        elements.forEach(function (element) {
+          element.classList.contains('noCumple') ? element.classList.replace('noCumple', 'cumple') : !element.classList.contains('cumple') ? element.classList.add('cumple') : null;
+        });
+      } else if (value == 'No Cumple') {
+        elements.forEach(function (element) {
+          element.classList.contains('cumple') ? element.classList.replace('cumple', 'noCumple') : !element.classList.contains('noCumple') ? element.classList.add('noCumple') : null;
+        });
+      }
+      // else if (value == 'na') {
+      //   elements.forEach(function (element) {
+      //     element.classList.contains('noCumple') ? element.classList.replace('noCumple', 'cumple') : !element.classList.contains('cumple') ? element.classList.add('cumple') : null;
+      //   });
+      // }
+
+      if (isGroup != 'true') {
+        const inputs = document.querySelectorAll(`[data-group="${group}"]`);
+        sumScore = 0;
+        inputs.forEach(input => {
+          const score = input.getAttribute("data-score");
+          const action = input.getAttribute("data-action");
+
+          if (action != 'No Cumple') {
+            sumScore = parseInt(sumScore) + parseInt(score);
+          }
+        });
+        idScoreText = `p${group}`;
+      } else {
+
+        if (value == 'No Cumple') {
+          document.getElementById(id).setAttribute('data-iscancel', "true");
+          sumScore = 0;
+        } else if (value != 'No Cumple') {
+          sumScore = 0;
+          document.getElementById(id).setAttribute('data-iscancel', "false");
+          const inputs = document.querySelectorAll(`[data-idgroup="${idGroup}"]`);
+
+          console.log(inputs);
+
+          let flagIsCance = false;
+
+          // Convertir NodeList a un array y luego verificar si alguno de los elementos tiene data-iscancel="true"
+          const hasCancelInput = Array.from(inputs).some(input => input.getAttribute("data-iscancel") === 'true');
+
+          flagIsCance = !hasCancelInput;
+
+          if (flagIsCance) {
+            sumScore = score;
+          }
+        }
+        idScoreText = idGroup;
+      }
+
+
+      sumTotal = sumScore;
+
+      const colorTotal = getColor(sumTotal, `${group}`);
+      elementP = document.getElementById(idScoreText);
+      // console.log(elementP);
+      elementP.textContent = `${sumTotal}%`;
+      elementP.style.setProperty('background-color', colorTotal, 'important');
+      elementP.setAttribute('data-total', sumTotal);
+
+      calculateTotalPercentage();
+    }
+  </script>
+
+</body>
+
+</html>
